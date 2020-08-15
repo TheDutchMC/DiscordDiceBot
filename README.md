@@ -21,3 +21,5 @@ You may not distribute this plugin as your own, or provide alternate download li
 This code is my own, and all rights to it are mine.
 
 Copyright (C) 2020 - Tobias de Bruijn
+
+The licence for JDA can be found [here](https://github.com/DV8FromTheWorld/JDA/blob/master/LICENSE)
