@@ -1,1 +1,4 @@
-#Empty configuration file. you should add stuff here yourself or remove it :)
+discordToken: ""
+discordChannel: ""
+prefix: "$"
+diceSize: 20

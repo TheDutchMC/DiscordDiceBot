@@ -3,6 +3,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 plugins {
     id 'java'
     id 'eclipse'
+    id 'com.github.johnrengelman.shadow' version '5.0.0'
 }
 
 allprojects {
@@ -15,6 +16,7 @@ allprojects {
 
 	repositories {
 		jcenter()
+		mavenCentral()
   	  	maven{ url "https://hub.spigotmc.org/nexus/content/repositories/snapshots" }
    	 	maven{ url "https://oss.sonatype.org/content/repositories/snapshots" }
     }
@@ -34,20 +36,14 @@ dependencies {
 	
 	compileOnly 'org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT'
 	
-}
-
-task testJar(type: Jar) {
+	//JDA, for hooking into Discord
+	implementation ('net.dv8tion:JDA:4.2.0_168') {
+		exclude module: 'opus-java' 
+	}
 	
-	description 'Build a test Jar'
-	archiveClassifier = 'DEV'
-	from sourceSets.main.output
-	destinationDirectory = file("$rootDir/server/plugins")
 }
 
-task releaseJar(type: Jar) {
-
-	description 'Build a release Jar'
-	archiveClassifier = 'RELEASE'
-	from sourceSets.main.output
-	destinationDirectory = file("$rootDir/releases")
+shadowJar {
+	classifier ''
+	relocate 'net.dv8tion.jda', 'nl.thedutchmc.DiscordDiceBot.libs.jda'
 }
