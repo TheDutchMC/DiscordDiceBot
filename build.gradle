@@ -1,4 +1,5 @@
 import org.apache.tools.ant.filters.ReplaceTokens
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     id 'java'
@@ -36,14 +37,27 @@ dependencies {
 	
 	compileOnly 'org.spigotmc:spigot-api:1.16.1-R0.1-SNAPSHOT'
 	
-	//JDA, for hooking into Discord
 	implementation ('net.dv8tion:JDA:4.2.0_168') {
 		exclude module: 'opus-java' 
 	}
 	
 }
 
-shadowJar {
-	classifier ''
-	relocate 'net.dv8tion.jda', 'nl.thedutchmc.DiscordDiceBot.libs.jda'
+task testJar(type: ShadowJar) {
+		
+	description 'Build a test Jar'
+	archiveClassifier = 'DEV'
+	from sourceSets.main.output
+	configurations = [project.configurations.runtime]
+	destinationDirectory = file("$rootDir/server/plugins")
+}
+
+task releaseJar(type: ShadowJar) {
+
+	description 'Build a release Jar'
+	archiveClassifier = 'RELEASE'
+	from sourceSets.main.output
+	configurations = [project.configurations.runtime]
+	destinationDirectory = file("$rootDir/releases")
+
 }
